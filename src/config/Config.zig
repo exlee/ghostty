@@ -2734,6 +2734,11 @@ keybind: Keybinds = .{},
     else => false,
 },
 
+/// Hide the macOS Dock when the quick terminal overlaps it.
+///
+/// Only implemented on macOS.
+@"quick-terminal-dock-hide": bool = true,
+
 /// This configuration option determines the behavior of the quick terminal
 /// when switching between macOS spaces. macOS spaces are virtual desktops
 /// that can be manually created or are automatically created when an

@@ -56,6 +56,16 @@ struct ConfigTests {
         #expect(config.macosWindowShadow == true)
     }
 
+    @Test func quickTerminalDockHideDefaultsToTrue() throws {
+        let config = try TemporaryConfig("")
+        #expect(config.quickTerminalDockHide == true)
+    }
+
+    @Test func quickTerminalDockHideSetToFalse() throws {
+        let config = try TemporaryConfig("quick-terminal-dock-hide = false")
+        #expect(config.quickTerminalDockHide == false)
+    }
+
     @Test func maximizeDefaultsToFalse() throws {
         let config = try TemporaryConfig("")
         #expect(config.maximize == false)

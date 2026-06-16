@@ -589,6 +589,14 @@ extension Ghostty {
             return v
         }
 
+        var quickTerminalDockHide: Bool {
+            guard let config = self.config else { return true }
+            var v = true
+            let key = "quick-terminal-dock-hide"
+            _ = ghostty_config_get(config, &v, key, UInt(key.lengthOfBytes(using: .utf8)))
+            return v
+        }
+
         var quickTerminalSpaceBehavior: QuickTerminalSpaceBehavior {
             guard let config = self.config else { return .move }
             var v: UnsafePointer<Int8>?

@@ -162,7 +162,9 @@ class QuickTerminalController: BaseTerminalController {
         terminalViewContainer?.updateGlassTintOverlay(isKeyWindow: true)
 
         // Re-hide the dock if we were hiding it before.
-        hiddenDock?.hide()
+        if derivedConfig.quickTerminalDockHide {
+            hiddenDock?.hide()
+        }
     }
 
     override func windowDidResignKey(_ notification: Notification) {
@@ -451,7 +453,7 @@ class QuickTerminalController: BaseTerminalController {
 
         // If our dock position would conflict with our target location then
         // we autohide the dock.
-        if position.conflictsWithDock(on: screen) {
+        if derivedConfig.quickTerminalDockHide && position.conflictsWithDock(on: screen) {
             if hiddenDock == nil {
                 hiddenDock = .init()
             }
@@ -718,6 +720,9 @@ class QuickTerminalController: BaseTerminalController {
 
         // Update our derived config
         self.derivedConfig = DerivedConfig(config)
+        if !derivedConfig.quickTerminalDockHide {
+            hiddenDock = nil
+        }
 
         syncAppearance()
 
@@ -736,6 +741,7 @@ class QuickTerminalController: BaseTerminalController {
         let quickTerminalScreen: QuickTerminalScreen
         let quickTerminalAnimationDuration: Double
         let quickTerminalAutoHide: Bool
+        let quickTerminalDockHide: Bool
         let quickTerminalSpaceBehavior: QuickTerminalSpaceBehavior
         let quickTerminalSize: QuickTerminalSize
         let backgroundOpacity: Double
@@ -745,6 +751,7 @@ class QuickTerminalController: BaseTerminalController {
             self.quickTerminalScreen = .main
             self.quickTerminalAnimationDuration = 0.2
             self.quickTerminalAutoHide = true
+            self.quickTerminalDockHide = true
             self.quickTerminalSpaceBehavior = .move
             self.quickTerminalSize = QuickTerminalSize()
             self.backgroundOpacity = 1.0
@@ -755,6 +762,7 @@ class QuickTerminalController: BaseTerminalController {
             self.quickTerminalScreen = config.quickTerminalScreen
             self.quickTerminalAnimationDuration = config.quickTerminalAnimationDuration
             self.quickTerminalAutoHide = config.quickTerminalAutoHide
+            self.quickTerminalDockHide = config.quickTerminalDockHide
             self.quickTerminalSpaceBehavior = config.quickTerminalSpaceBehavior
             self.quickTerminalSize = config.quickTerminalSize
             self.backgroundOpacity = config.backgroundOpacity
